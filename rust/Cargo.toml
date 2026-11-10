@@ -1,0 +1,13 @@
+[package]
+name = "dpdid_plus"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+blstrs = "0.7"
+ff = "0.13"
+group = "0.13"
+rand = "0.8"
+rand_chacha = "0.3"
+rayon = "1.12.0"
+sha2 = "0.11.1"
