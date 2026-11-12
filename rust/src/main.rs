@@ -13,7 +13,7 @@
 use blstrs::{G1Projective, Scalar};
 use ff::Field;
 use group::Group;
-use rand::SeedableRng;
+use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha20Rng;
 use rayon::prelude::*;
 use sha2::{Digest, Sha256};
@@ -60,6 +60,16 @@ fn hash_to_scalar(chunks: &[&[u8]]) -> Scalar {
     }
     l[3] &= 0x0fff_ffff_ffff_ffff; // < r
     Scalar::from_u64s_le(&l).unwrap()
+}
+
+/// Salted digest h_jk = H(r_jk || s_jk) of one sub-share vector (Algorithm 1, step 1).
+fn salted_digest(salt: &[u8; 32], v: &[Scalar]) -> Vec<u8> {
+    let mut h = Sha256::new();
+    h.update(salt);
+    for s in v {
+        h.update(s.to_bytes_le());
+    }
+    h.finalize().to_vec()
 }
 
 fn powers(rho: Scalar, n: usize) -> Vec<Scalar> {
@@ -202,7 +212,8 @@ fn main() {
 
     // ========== DBPSS+ Handoff by resharing ==========
     // 1. Dealing: sub[j][k][i] = Q_ij(x'_k), digests H(sub[j][k]) committed.
-    let deal_out: Vec<(Vec<Vec<Scalar>>, Vec<Vec<Scalar>>, Duration)> = (0..n)
+    // The dealer's time covers the sub-sharings and the n salted digests h_jk = H(r_jk || s_jk).
+    let dealt: Vec<(Vec<Vec<Scalar>>, Vec<Vec<Scalar>>, Duration, Vec<[u8; 32]>, Vec<Vec<u8>>)> = (0..n)
         .into_par_iter()
         .map(|j| {
             let mut r = ChaCha20Rng::seed_from_u64(2000 + j as u64);
@@ -217,21 +228,25 @@ fn main() {
                 }
                 qs.push(q);
             }
-            (qs, sub, st.elapsed())
+            let salts: Vec<[u8; 32]> = (0..n).map(|_| { let mut b = [0u8; 32]; r.fill_bytes(&mut b); b }).collect();
+            let dg: Vec<Vec<u8>> = (0..n).map(|k| salted_digest(&salts[k], &sub[k])).collect();
+            (qs, sub, st.elapsed(), salts, dg)
         })
         .collect();
-    let digests: Vec<Vec<u8>> = deal_out
-        .par_iter()
-        .map(|(_, sub, _)| {
-            let mut h = Sha256::new();
-            for row in sub {
-                for s in row {
-                    h.update(s.to_bytes_le());
-                }
-            }
-            h.finalize().to_vec()
+    let deal_out: Vec<(Vec<Vec<Scalar>>, Vec<Vec<Scalar>>, Duration)> =
+        dealt.iter().map(|d| (d.0.clone(), d.1.clone(), d.2)).collect();
+    let digests: Vec<Vec<u8>> = dealt.iter().flat_map(|d| d.4.clone()).collect();
+    // Round 2, once per handoff: each receiver checks the n vectors it received against
+    // the posted digests. Added to the receiver's time of the first attempt.
+    let digest_check: Vec<(bool, Duration)> = (0..n)
+        .into_par_iter()
+        .map(|k| {
+            let st = Instant::now();
+            let ok = (0..n).all(|j| salted_digest(&dealt[j].3[k], &dealt[j].1[k]) == dealt[j].4[k]);
+            (ok, st.elapsed())
         })
         .collect();
+    let digests_ok = digest_check.iter().all(|d| d.0);
     // 2.-7. One attempt of rounds 2-7 of Algorithm 1 for a qualified set Q of t dealers.
     // Only dealers in Q commit and are checked (|Q| = t), as in the paper.
     let qset: Vec<usize> = (0..t).collect(); // Q (first t qualified dealers)
@@ -306,12 +321,22 @@ fn main() {
             let a = attempt(&q, lab.as_bytes(), &fb, &deal_out, &digests, &vk, &xs, &xs_new, n, t, gamma);
             ok &= a.const_ok && a.recv_ok && a.newv_ok;
             tc += a.f_time; tr += a.recv_time; tp += a.public_time;
+            if r == 0 { tr += digest_check.iter().map(|d| d.1).max().unwrap(); }
             if r + 1 < t {
                 // attribution: individual checks (a_j) for every dealer of Q
                 let st = Instant::now();
                 let fl: Vec<bool> = (0..t).map(|qq| msm(&vk[q[qq]], &a.rp) == a.f[qq][0]).collect();
                 std::hint::black_box(&fl);
                 tp += st.elapsed();
+                // attribution at a receiver: individual checks (b_jk) for every dealer of Q
+                let st = Instant::now();
+                let fb_ok: Vec<bool> = (0..t).map(|qq| {
+                    let sub = &deal_out[q[qq]].1[0];
+                    let s: Scalar = (0..gamma).map(|i| a.rp[i] * sub[i]).sum();
+                    fb.mul(&s) == feldman_eval(&a.f[qq], xs_new[0])
+                }).collect();
+                std::hint::black_box(&fb_ok);
+                tr += st.elapsed();
             } else {
                 last_newp = a.newp;
             }
@@ -328,12 +353,13 @@ fn main() {
 
     let maxd = |v: &[Duration]| *v.iter().max().unwrap();
     let deal_time: Vec<Duration> = (0..n).map(|j| deal_out[j].2 + if qset.contains(&j) { r1.f_time } else { Duration::ZERO }).collect();
-    let tm = Timing { deal: maxd(&deal_time), receive: r1.recv_time, public: r1.public_time };
+    let recv_first = (0..n).map(|k| r1.recv_each[k] + digest_check[k].1).max().unwrap();
+    let tm = Timing { deal: maxd(&deal_time), receive: recv_first, public: r1.public_time };
     println!(
         "{{\"N\":{n},\"t\":{t},\"Gamma\":{gamma},\
 \"orig_offline_member_ms\":{:.1},\"orig_handoff_recv_ms\":{:.1},\
 \"plus_deal_member_ms\":{:.1},\"plus_recv_member_ms\":{:.1},\"plus_public_ms\":{:.1},\
-\"const_ok\":{},\"recv_ok\":{},\"newv_ok\":{},\"correct\":{correct},\
+\"digests_ok\":{digests_ok},\"const_ok\":{},\"recv_ok\":{},\"newv_ok\":{},\"correct\":{correct},\
 \"a2_success_of_50\":{a2},\"tamper_caught\":{tamper_caught},\"cancel_attack_caught\":{cancel_ok},\"per_dealer_fallback_ms\":{fallback_ms:.1},\
 \"retry_ok\":{retry_ok},\"retry_commit_ms\":{:.1},\"retry_recv_ms\":{:.1},\"retry_public_ms\":{:.1},\
 \"audit_ok\":{},\"audit_all_ms\":{:.1},\
@@ -364,9 +390,10 @@ struct Attempt {
     recv_ok: bool,
     newv_ok: bool,
     f_time: Duration,      // per dealer in Q: commitment to F_j
-    recv_time: Duration,   // max per new member: combine + V'_k + check (b)
+    recv_time: Duration,   // max per new member: combine + V'_k + hash h'_k + check (b)
+    recv_each: Vec<Duration>,
     public_time: Duration, // check (a) over Q + check (c) for one member
-    audit_time: Duration,  // one auditor, single thread: check (a) + check (c) for all n members
+    audit_time: Duration,  // one auditor (multi-threaded MSM in the default build): check (a) + check (c) for all n members
     audit_ok: bool,        // check (c) holds for every member
 }
 
@@ -406,7 +433,7 @@ fn attempt(
 ) -> Attempt {
     // Round 2: new members combine with Lagrange over Q and post V'_k before the challenge.
     let lam = lagrange_at0(&qset.iter().map(|&j| xs[j]).collect::<Vec<_>>());
-    let combine: Vec<(Vec<Scalar>, Vec<G1Projective>, Duration)> = (0..n)
+    let combine: Vec<(Vec<Scalar>, Vec<G1Projective>, Vec<u8>, Duration)> = (0..n)
         .into_par_iter()
         .map(|k| {
             let st = Instant::now();
@@ -418,19 +445,16 @@ fn attempt(
                 }
             }
             let newv: Vec<G1Projective> = newp.iter().map(|s| fb.mul(s)).collect();
-            (newp, newv, st.elapsed())
-        })
-        .collect();
-    let vdig: Vec<Vec<u8>> = combine
-        .par_iter()
-        .map(|(_, v, _)| {
+            // hash h'_k of the compressed share-key vector, posted on the ledger
             let mut h = Sha256::new();
-            for p in v {
+            for p in &newv {
                 h.update(p.to_compressed());
             }
-            h.finalize().to_vec()
+            let hk = h.finalize().to_vec();
+            (newp, newv, hk, st.elapsed())
         })
         .collect();
+    let vdig: Vec<Vec<u8>> = combine.iter().map(|c| c.2.clone()).collect();
     // Round 3: beacon challenge after all digests and all V' are posted.
     let mut bc: Vec<&[u8]> = vec![b"VeriHand handoff e=1", label];
     for d in digests.iter().chain(vdig.iter()) {
@@ -483,11 +507,12 @@ fn attempt(
                 }
             }
             let ok = bool::from((fb.mul(&lhs) - msm(&pts, &scs)).is_identity());
-            (ok, st.elapsed() + combine[k].2)
+            (ok, st.elapsed() + combine[k].3)
         })
         .collect();
     let recv_ok = recv.iter().all(|r| r.0);
-    let recv_time = recv.iter().map(|r| r.1).max().unwrap();
+    let recv_each: Vec<Duration> = recv.iter().map(|r| r.1).collect();
+    let recv_time = *recv_each.iter().max().unwrap();
     // Round 6 (c): public check of one new member's V'_k.
     let st = Instant::now();
     let k = 0;
@@ -495,7 +520,7 @@ fn attempt(
     let rhs = msm(&(0..qset.len()).map(|q| feldman_eval(&f[q], xs_new[k])).collect::<Vec<_>>(), &lam);
     let newv_ok = lhs == rhs;
     let public_time = public_a + st.elapsed();
-    // Full audit by one party on one thread: check (a) again plus check (c) for every member.
+    // Full audit by one party: check (a) again plus check (c) for every member.
     let st = Instant::now();
     let a_again = check_a(qset, vk, &rp, &tau, &f);
     let mut audit_ok = a_again;
@@ -515,6 +540,7 @@ fn attempt(
         newv_ok,
         f_time,
         recv_time,
+        recv_each,
         public_time,
         audit_time,
         audit_ok,
