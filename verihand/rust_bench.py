@@ -14,16 +14,22 @@ import subprocess
 RUST_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "rust")
 
 
-def build(target_dir=None):
-    """cargo build --release; returns the directory that holds the binaries."""
+def build(target_dir=None, single_thread_msm=False):
+    """cargo build --release; returns the directory that holds the binaries.
+
+    single_thread_msm=True builds with the crate feature single-thread-msm, which turns
+    off the thread pool of blst's multi-scalar multiplication, into a separate target
+    directory (<target>-st). The single-threaded measurements use these binaries."""
     if shutil.which("cargo") is None:
         raise RuntimeError("cargo not found: install Rust from https://rustup.rs (see README.md)")
     env = dict(os.environ)
-    target_dir = target_dir or env.get("CARGO_TARGET_DIR")
-    if target_dir:
-        env["CARGO_TARGET_DIR"] = target_dir
-    subprocess.run(["cargo", "build", "--release", "--quiet"], cwd=RUST_DIR, env=env, check=True)
-    base = target_dir or os.path.join(RUST_DIR, "target")
+    base = target_dir or env.get("CARGO_TARGET_DIR") or os.path.join(RUST_DIR, "target")
+    cmd = ["cargo", "build", "--release", "--quiet"]
+    if single_thread_msm:
+        base = base.rstrip("/\\") + "-st"
+        cmd += ["--features", "single-thread-msm"]
+    env["CARGO_TARGET_DIR"] = base
+    subprocess.run(cmd, cwd=RUST_DIR, env=env, check=True)
     return os.path.join(base, "release")
 
 

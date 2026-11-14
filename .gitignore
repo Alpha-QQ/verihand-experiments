@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 results.json
 results-quick.json
+rust/target-st/
+results-table4.json

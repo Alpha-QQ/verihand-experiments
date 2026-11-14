@@ -137,6 +137,7 @@ dependencies = [
 name = "dpdid_plus"
 version = "0.1.0"
 dependencies = [
+ "blst",
  "blstrs",
  "ff",
  "group",

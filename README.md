@@ -117,3 +117,4 @@ multi-scalar multiplication. `results/results-paper-2026-11-08.json` is an earli
 version 1.0 on another machine, kept for reference. It contains every parameter, every raw run, the means and
 standard deviations, all pass/fail flags, and the derived numbers quoted in the paper.
 Timings and their ratios depend on the machine and on its thread pools; the pass/fail flags and the byte counts reproduce exactly.
+

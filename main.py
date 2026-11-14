@@ -19,7 +19,8 @@ from verihand import attacks, fault_handling, grid, rust_bench, stats, weights
 # ----------------------------------------------------------------------------------
 # CONFIG: the only part you need to change.
 # ----------------------------------------------------------------------------------
-PROFILE = "paper"          # "paper": parameters of the paper; "quick": smoke test
+PROFILE = "paper"          # "paper": all experiments of the paper; "table4": only the
+                           # single-threaded comparison of Table IV; "quick": smoke test
 
 PROFILES = {
     "paper": {
@@ -35,7 +36,8 @@ PROFILES = {
         "fault_handling": {"configs": [[5, 3], [20, 7]], "gamma": 8},
         "rust_handoff": {"n": 20, "t": 7, "gammas": [1000, 10000, 100000],
                          "reps_multithreaded": 10, "reps_single_threaded": 10,
-                         "threads": None},        # None = all cores
+                         "threads": None,         # None = all cores
+                         "multithreaded": True},  # False = only the single-threaded runs
         "rust_sweep": {"gamma": 20000, "reps": 10,
                        "configs": [[10, 7], [20, 7], [30, 7], [40, 7], [50, 7],
                                    [30, 3], [30, 9], [30, 15]]},
@@ -43,6 +45,19 @@ PROFILES = {
         "rust_issuance": {"n": 20, "t": 7, "credentials": 100},
         "rust_revocation": {"revoked": [1000, 10000, 100000, 1000000]},
         "cargo_target_dir": None,              # None = rust/target
+    },
+    "table4": {
+        "output": "results-table4.json",
+        "run": {
+            "attacks": False, "corruption_grid": False, "weight_timing": False,
+            "fault_handling": False, "rust_handoff": True, "rust_sweep": False,
+            "rust_baseline": True, "rust_issuance": False, "rust_revocation": False,
+        },
+        "rust_handoff": {"n": 20, "t": 7, "gammas": [1000, 10000, 100000],
+                         "reps_multithreaded": 0, "reps_single_threaded": 10,
+                         "threads": None, "multithreaded": False},
+        "rust_baseline": {"n": 20, "t": 7, "gammas": [1000, 10000, 100000], "reps": 10},
+        "cargo_target_dir": None,
     },
     "quick": {
         "output": "results-quick.json",
@@ -56,7 +71,7 @@ PROFILES = {
         "weight_timing": {"configs": [[5, 3]], "gamma": 4},
         "fault_handling": {"configs": [[5, 3]], "gamma": 4},
         "rust_handoff": {"n": 20, "t": 7, "gammas": [100], "reps_multithreaded": 2,
-                         "reps_single_threaded": 2, "threads": None},
+                         "reps_single_threaded": 2, "threads": None, "multithreaded": True},
         "rust_sweep": {"gamma": 100, "reps": 1, "configs": [[10, 3]]},
         "rust_baseline": {"n": 20, "t": 7, "gammas": [100], "reps": 2},
         "rust_issuance": {"n": 5, "t": 3, "credentials": 5},
@@ -67,7 +82,7 @@ PROFILES = {
 # ----------------------------------------------------------------------------------
 
 HANDOFF_KEYS = ["orig_offline_member_ms", "orig_handoff_recv_ms", "plus_deal_member_ms",
-                "plus_recv_member_ms", "plus_public_ms", "per_dealer_fallback_ms",
+                "plus_recv_member_ms", "plus_public_ms", "per_dealer_fallback_ms", "digests_ok",
                 "retry_commit_ms", "retry_recv_ms", "retry_public_ms", "a2_success_of_50",
                 "const_ok", "recv_ok", "newv_ok", "correct", "tamper_caught",
                 "cancel_attack_caught", "retry_ok", "audit_ok", "audit_all_ms",
@@ -75,7 +90,8 @@ HANDOFF_KEYS = ["orig_offline_member_ms", "orig_handoff_recv_ms", "plus_deal_mem
                 "worst_public_ms_total"]
 BASELINE_KEYS = ["deal_member_ms", "recv_member_ms", "derive_member_ms",
                  "derive_agg_setup_ms", "derive_agg_member_ms", "derive_agg_matches",
-                 "bcast_bytes_total", "bcast_bytes_derived", "p2p_bytes_per_receiver", "ok"]
+                 "bcast_bytes_total", "bcast_bytes_derived", "p2p_bytes_per_receiver",
+                 "derive_matches_newv", "digests_ok", "ok"]
 ISSUANCE_KEYS = ["dkg_ms_total_sim", "partial_sign_ms_per_cred_all_t",
                  "partial_verify_ms_per_cred", "verify_cred_ms"]
 REVOCATION_KEYS = ["build_ms", "prove_us", "verify_us", "avg_siblings", "avg_proof_bytes"]
@@ -92,8 +108,9 @@ def repeated(bin_dir, name, args, reps, keys):
 
 
 def verihand_public_bytes(n, t, gamma):
-    """Public data of a VeriHand handoff: share keys, digests and commitments (Sec. VIII)."""
-    return 48 * n * gamma + 32 * n * n + 48 * t * t
+    """Public data of a VeriHand handoff: share keys, their hashes, digests and
+    commitments (Sec. VIII)."""
+    return 48 * n * gamma + 32 * n + 32 * n * n + 48 * t * t
 
 
 def main():
@@ -109,7 +126,7 @@ def main():
            "config": cfg}
     run = cfg["run"]
 
-    # ---- algebraic attacks on DP-DID (Section IV, Table VII) ----
+    # ---- algebraic attacks on DP-DID (Section IV, supplement Table VI) ----
     if run["attacks"]:
         c = cfg["attacks"]
         log("attacks A1, A2, Q3, A3")
@@ -118,7 +135,7 @@ def main():
                           "Q3": attacks.attack_q3(c["n"], c["t"], c["gamma"]),
                           "A3": attacks.attack_a3(c["n"], c["t"])}
 
-    # ---- corruption grid (Fig. 3) ----
+    # ---- corruption grid (Fig. 2) ----
     if run["corruption_grid"]:
         c = cfg["corruption_grid"]
         log("corruption grid")
@@ -148,17 +165,27 @@ def main():
     if any(run[k] for k in run if k.startswith("rust_")):
         log("building Rust prototype (cargo build --release)")
         bin_dir = rust_bench.build(cfg["cargo_target_dir"])
+        # single-threaded binaries: rayon with one thread AND blst's multi-scalar
+        # multiplication without its thread pool (crate feature single-thread-msm)
+        st_dir = None
+        if run["rust_handoff"] or run["rust_baseline"]:
+            log("building single-threaded Rust binaries (--features single-thread-msm)")
+            st_dir = rust_bench.build(cfg["cargo_target_dir"], single_thread_msm=True)
+        res["machine"]["single_threaded_build"] = "rayon 1 thread + blst feature no-threads"
         if run["rust_handoff"]:
             c = cfg["rust_handoff"]
             mt, st1 = [], []
             for g in c["gammas"]:
-                log(f"handoff Gamma={g} (multi-threaded)")
-                args = [c["n"], c["t"], g] + ([c["threads"]] if c["threads"] else [])
-                mt.append(repeated(bin_dir, "dpdid_plus", args, c["reps_multithreaded"], HANDOFF_KEYS))
+                if c.get("multithreaded", True):
+                    log(f"handoff Gamma={g} (multi-threaded)")
+                    args = [c["n"], c["t"], g] + ([c["threads"]] if c["threads"] else [])
+                    mt.append(repeated(bin_dir, "dpdid_plus", args, c["reps_multithreaded"], HANDOFF_KEYS))
                 log(f"handoff Gamma={g} (single-threaded)")
-                st1.append(repeated(bin_dir, "dpdid_plus", [c["n"], c["t"], g, 1],
+                st1.append(repeated(st_dir, "dpdid_plus", [c["n"], c["t"], g, 1],
                                     c["reps_single_threaded"], HANDOFF_KEYS))
-            res["handoff_multithreaded"], res["handoff_single_threaded"] = mt, st1
+            if mt:
+                res["handoff_multithreaded"] = mt
+            res["handoff_single_threaded"] = st1
         if run["rust_sweep"]:
             c = cfg["rust_sweep"]
             res["sweep"] = []
@@ -171,7 +198,7 @@ def main():
             for g in c["gammas"]:
                 log(f"per-secret baseline Gamma={g}")
                 res["per_secret_baseline"].append(
-                    repeated(bin_dir, "baseline", [c["n"], c["t"], g], c["reps"], BASELINE_KEYS))
+                    repeated(st_dir, "baseline", [c["n"], c["t"], g], c["reps"], BASELINE_KEYS))
         if run["rust_issuance"]:
             c = cfg["rust_issuance"]
             log("issuance, LA-FS")

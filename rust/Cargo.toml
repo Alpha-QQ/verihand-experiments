@@ -11,3 +11,10 @@ rand = "0.8"
 rand_chacha = "0.3"
 rayon = "1.12.0"
 sha2 = "0.11.1"
+# blst is the backend of blstrs. Its multi-scalar multiplication uses all CPU cores
+# unless the feature no-threads is set; the single-threaded measurements (Table IV)
+# are built with   cargo build --release --features single-thread-msm
+blst = "0.3.17"
+
+[features]
+single-thread-msm = ["blst/no-threads"]

@@ -20,46 +20,55 @@ def handoff(n, t, G, bad_dealers, bad_receivers):
     # ---- Round 1: deal and post digests (deadline D1) ----
     Qp = {}       # dealer j -> its sub-polynomials
     sent = {}     # (j, k) -> vector delivered privately
-    digest = {}   # (j, k) -> digest on the ledger
+    digest = {}   # (j, k) -> salted digest h_jk = H(r_jk || s_jk) on the ledger
+    salt = {}     # (j, k) -> 256-bit salt r_jk, sent privately with s_jk
+    D = lambda j, k, v: H(salt[(j, k)], tuple(v))
     for j in range(n):
         b = bad_dealers.get(j)
         if b == 'no_digest':
             continue                                              # misses D1
         Qp[j] = [[p[i][j]] + [secrets.randbelow(r) for _ in range(t - 1)] for i in range(G)]
         for k in range(n):
+            salt[(j, k)] = secrets.token_bytes(32)
             vec = [ev(Qp[j][i], X[k]) for i in range(G)]
             if b == 'bad_sub' and k == honest_recv[0]:
                 vec[0] = (vec[0] + 1) % r                         # inconsistent, digest matches
-                digest[(j, k)] = H(tuple(vec))
+                digest[(j, k)] = D(j, k, vec)
             elif b in ('digest_mismatch', 'refuse_open') and k == honest_recv[0]:
-                digest[(j, k)] = H(tuple(vec))
+                digest[(j, k)] = D(j, k, vec)
                 vec = vec[:]
                 vec[0] = (vec[0] + 1) % r                         # delivered vector != digest
             else:
-                digest[(j, k)] = H(tuple(vec))
+                digest[(j, k)] = D(j, k, vec)
             sent[(j, k)] = vec
     disq_d, disq_r, log = set(), set(), []
     # ---- Round 2 complaints on digest mismatch (answer deadline D2) ----
     for (j, k), vec in list(sent.items()):
-        if k in bad_receivers or H(tuple(vec)) == digest[(j, k)]:
+        if k in bad_receivers or D(j, k, vec) == digest[(j, k)]:
             continue
         if bad_dealers.get(j) == 'refuse_open':
             disq_d.add(j)
             log.append(f'dealer {j} did not answer digest complaint of {k}: disqualified')
         else:                                                     # publishes the true vector
             true = [ev(Qp[j][i], X[k]) for i in range(G)]
-            if H(tuple(true)) == digest[(j, k)]:
+            if D(j, k, true) == digest[(j, k)]:
                 sent[(j, k)] = true
             else:
                 disq_d.add(j)
-    # corrupted receiver that complains falsely about a matching vector
+    # corrupted receiver that complains falsely about a matching vector. Only public
+    # evidence decides: the honest dealer publishes a vector that matches its digest, so
+    # the dealer stays qualified and the receiver uses the published vector (Algorithm 1,
+    # round 2). Nobody can tell whether the private delivery failed, so the receiver is
+    # not disqualified either.
     for k, b in bad_receivers.items():
         if b == 'false_digest_complaint':
             j = 0
-            opened = sent[(j, k)]
-            if H(tuple(opened)) == digest[(j, k)]:
-                disq_r.add(k)
-                log.append(f'receiver {k} complained but the published vector matches: receiver disqualified')
+            opened = [ev(Qp[j][i], X[k]) for i in range(G)]   # published answer
+            if D(j, k, opened) == digest[(j, k)]:
+                sent[(j, k)] = opened
+                log.append(f'receiver {k} complained against dealer {j}; the published vector matches its digest: dealer kept, receiver uses it')
+            else:
+                disq_d.add(j)
     attempts = 0
     while True:
         attempts += 1
@@ -139,7 +148,7 @@ def handoff(n, t, G, bad_dealers, bad_receivers):
                 if not claims:
                     continue
                 opened = sent[(j, k)]                             # opening of s_jk
-                if H(tuple(opened)) != digest[(j, k)] or ok:
+                if D(j, k, opened) != digest[(j, k)] or ok:
                     disq_r.add(k)
                     log.append(f'attempt {attempts}: receiver {k} complained against {j} but the opening passes (b_jk): receiver disqualified')
                 else:
