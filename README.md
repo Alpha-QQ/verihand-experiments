@@ -41,10 +41,9 @@ All experiments of the paper run from one file, `main.py`. Edit only its CONFIG 
 3. Rust: download and run `rustup-init.exe` from https://rustup.rs and accept the default
    (`1) Proceed with standard installation`), or run `winget install Rustlang.Rustup`.
 4. Close and reopen PowerShell, then check: `python --version`, `cargo --version`.
-5. Unpack and run:
+5. Download the repository (`git clone https://github.com/Alpha-QQ/verihand-experiments`, or
+   "Code" > "Download ZIP" and unpack it), open PowerShell in the folder that contains `main.py`, and run:
 
-       Expand-Archive verihand-experiments.zip -DestinationPath .
-       cd verihand-experiments
        python main.py --profile quick
        cmd /c start /affinity 0xFFF /wait /b python main.py
 
