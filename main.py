@@ -14,26 +14,29 @@ import platform
 import sys
 import time
 
-from verihand import attacks, fault_handling, grid, rust_bench, stats, weights
+from verihand import a1_dynamic, attacks, fault_handling, grid, rust_bench, stats, weights
 
 # ----------------------------------------------------------------------------------
 # CONFIG: the only part you need to change.
 # ----------------------------------------------------------------------------------
 PROFILE = "paper"          # "paper": all experiments of the paper; "table4": only the
-                           # single-threaded comparison of Table IV; "quick": smoke test
+                           # single-threaded comparison of Table II; "python": only the
+                           # untimed simulations; "quick": smoke test
 
 PROFILES = {
     "paper": {
         "output": "results.json",
         "run": {                            # switch individual experiments on or off
-            "attacks": True, "corruption_grid": True, "weight_timing": True,
+            "attacks": True, "a1_dynamic": True, "corruption_grid": True, "weight_timing": True,
             "fault_handling": True, "rust_handoff": True, "rust_sweep": True,
             "rust_baseline": True, "rust_issuance": True, "rust_revocation": True,
         },
         "attacks": {"a1_num_revoked": 3, "n": 20, "t": 7, "gamma": 1000},
+        "a1_dynamic": {"n": 20, "t": 7, "gamma": 1000, "joining": 8},
         "corruption_grid": {"n": 20, "t": 7, "gamma": 200},
         "weight_timing": {"configs": [[5, 3], [20, 7]], "gamma": 30},
-        "fault_handling": {"configs": [[5, 3], [20, 7]], "gamma": 8},
+        "fault_handling": {"configs": [[5, 3], [20, 7]], "gamma": 8,
+                           "combined_random_runs": 50, "seed": 20261117},
         "rust_handoff": {"n": 20, "t": 7, "gammas": [1000, 10000, 100000],
                          "reps_multithreaded": 10, "reps_single_threaded": 10,
                          "threads": None,         # None = all cores
@@ -49,7 +52,7 @@ PROFILES = {
     "table4": {
         "output": "results-table4.json",
         "run": {
-            "attacks": False, "corruption_grid": False, "weight_timing": False,
+            "attacks": False, "a1_dynamic": False, "corruption_grid": False, "weight_timing": False,
             "fault_handling": False, "rust_handoff": True, "rust_sweep": False,
             "rust_baseline": True, "rust_issuance": False, "rust_revocation": False,
         },
@@ -59,17 +62,34 @@ PROFILES = {
         "rust_baseline": {"n": 20, "t": 7, "gammas": [1000, 10000, 100000], "reps": 10},
         "cargo_target_dir": None,
     },
+    "python": {                              # only the untimed Python simulations (no Rust)
+        "output": "results-python.json",
+        "run": {
+            "attacks": True, "a1_dynamic": True, "corruption_grid": True, "weight_timing": True,
+            "fault_handling": True, "rust_handoff": False, "rust_sweep": False,
+            "rust_baseline": False, "rust_issuance": False, "rust_revocation": False,
+        },
+        "attacks": {"a1_num_revoked": 3, "n": 20, "t": 7, "gamma": 1000},
+        "a1_dynamic": {"n": 20, "t": 7, "gamma": 1000, "joining": 8},
+        "corruption_grid": {"n": 20, "t": 7, "gamma": 200},
+        "weight_timing": {"configs": [[5, 3], [20, 7]], "gamma": 30},
+        "fault_handling": {"configs": [[5, 3], [20, 7]], "gamma": 8,
+                           "combined_random_runs": 50, "seed": 20261117},
+        "cargo_target_dir": None,
+    },
     "quick": {
         "output": "results-quick.json",
         "run": {
-            "attacks": True, "corruption_grid": True, "weight_timing": True,
+            "attacks": True, "a1_dynamic": True, "corruption_grid": True, "weight_timing": True,
             "fault_handling": True, "rust_handoff": True, "rust_sweep": True,
             "rust_baseline": True, "rust_issuance": True, "rust_revocation": True,
         },
         "attacks": {"a1_num_revoked": 3, "n": 20, "t": 7, "gamma": 20},
+        "a1_dynamic": {"n": 20, "t": 7, "gamma": 20, "joining": 8},
         "corruption_grid": {"n": 20, "t": 7, "gamma": 5},
         "weight_timing": {"configs": [[5, 3]], "gamma": 4},
-        "fault_handling": {"configs": [[5, 3]], "gamma": 4},
+        "fault_handling": {"configs": [[5, 3]], "gamma": 4,
+                           "combined_random_runs": 5, "seed": 20261117},
         "rust_handoff": {"n": 20, "t": 7, "gammas": [100], "reps_multithreaded": 2,
                          "reps_single_threaded": 2, "threads": None, "multithreaded": True},
         "rust_sweep": {"gamma": 100, "reps": 1, "configs": [[10, 3]]},
@@ -135,6 +155,12 @@ def main():
                           "Q3": attacks.attack_q3(c["n"], c["t"], c["gamma"]),
                           "A3": attacks.attack_a3(c["n"], c["t"])}
 
+    # ---- A1 with a membership change and corruption accounting (Section IV-B) ----
+    if run.get("a1_dynamic"):
+        c = cfg["a1_dynamic"]
+        log("A1 with membership change")
+        res["a1_dynamic"] = a1_dynamic.a1_dynamic(c["n"], c["t"], c["gamma"], c["joining"])
+
     # ---- corruption grid (Fig. 2) ----
     if run["corruption_grid"]:
         c = cfg["corruption_grid"]
@@ -160,6 +186,13 @@ def main():
         runs = fault_handling.run_scenarios([tuple(x) for x in c["configs"]], c["gamma"])
         res["fault_handling"] = {"scenarios": len(runs), "all_ok": all(r["ok"] for r in runs),
                                  "max_attempts": max(r["attempts"] for r in runs), "runs": runs}
+        if c.get("combined_random_runs") is not None:
+            log("fault handling: faulty dealers and receivers together")
+            comb = fault_handling.run_combined([tuple(x) for x in c["configs"]], c["gamma"],
+                                               c["combined_random_runs"], c["seed"])
+            res["fault_handling_combined"] = {
+                "scenarios": len(comb), "all_ok": all(r["ok"] for r in comb),
+                "max_attempts": max(r["attempts"] for r in comb), "runs": comb}
 
     # ---- Rust measurements ----
     if any(run[k] for k in run if k.startswith("rust_")):
@@ -228,9 +261,14 @@ def derived_numbers(res):
         g = res["corruption_grid"]
         out["grid_dpdid_pairs_all_lost"] = f"{g['dpdid_pairs_all_lost']} of {g['admissible_pairs']}"
         out["grid_verihand_pairs_any_lost"] = g["verihand_pairs_any_lost"]
+    if "a1_dynamic" in res:
+        out["a1_dynamic"] = {k: v["a1_applies"] for k, v in res["a1_dynamic"]["summary"].items()}
     if "fault_handling" in res:
         f = res["fault_handling"]
         out["fault_handling"] = f"{f['scenarios']} runs, all ok: {f['all_ok']}, max attempts {f['max_attempts']}"
+    if "fault_handling_combined" in res:
+        f = res["fault_handling_combined"]
+        out["fault_handling_combined"] = f"{f['scenarios']} runs, all ok: {f['all_ok']}, max attempts {f['max_attempts']}"
     mt = {e["args"][2]: e["summary"] for e in res.get("handoff_multithreaded", [])}
     for g, m in sorted(mt.items()):
         if "audit_all_ms" in m:

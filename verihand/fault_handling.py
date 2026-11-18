@@ -2,7 +2,9 @@
 
 Group elements are represented by their discrete logs, so every check is a linear
 equation over Z_r; the control flow (which messages exist by each deadline, who is
-blamed, when rounds 2-7 restart) follows Algorithm 1 exactly. A party that misses a
+blamed, when rounds 2-7 restart) follows Algorithm 1, with two simplifications: false
+digest complaints target the first dealer, and receivers file (b) complaints without
+waiting for the aggregate check. A party that misses a
 deadline has no message on the ledger; absence is public.
 """
 import secrets
@@ -162,10 +164,14 @@ def handoff(n, t, G, bad_dealers, bad_receivers):
                 disq_r.add(k)
                 log.append(f'attempt {attempts}: all dealers pass, receiver {k} fails (c): disqualified')
         break
-    good = [k for k in range(n) if k not in disq_r]
-    rec = good[:t]
-    lr = lagr([X[k] for k in rec])
-    correct = all(sum(lr[a] * newp[k][i] for a, k in enumerate(rec)) % r == S[i] for i in range(G))
+    # reconstruct from honest receivers only, with two different subsets of size t
+    honest_new = [k for k in range(n) if k not in disq_r and k not in bad_receivers]
+    correct = len(honest_new) >= t
+    for rec in (honest_new[:t], honest_new[-t:]):
+        if not correct:
+            break
+        lr = lagr([X[k] for k in rec])
+        correct = all(sum(lr[a] * newp[k][i] for a, k in enumerate(rec)) % r == S[i] for i in range(G))
     honest_dq = (disq_d - set(bad_dealers)) | (disq_r - set(bad_receivers))
     return dict(attempts=attempts, disq_dealers=sorted(disq_d), disq_receivers=sorted(disq_r),
                 honest_disqualified=sorted(honest_dq), correct=correct, log=log)
@@ -190,6 +196,58 @@ SCEN = [
 def chain(t):
     kinds = ['withhold_F', 'bad_F', 'bad_sub', 'refuse_open', 'withhold_F', 'bad_F', 'bad_sub']
     return {j: kinds[j % len(kinds)] for j in range(t - 1)}
+
+
+DEALER_FAULTS = ['withhold_F', 'bad_F', 'bad_sub', 'refuse_open', 'no_digest', 'digest_mismatch']
+RECEIVER_FAULTS = ['withhold_V', 'wrong_V', 'withhold_vec_refuse', 'withhold_vec_publish',
+                   'false_avail_complaint', 'false_digest_complaint', 'false_b_complaint']
+
+COMBINED = [
+    ('dealer posts a wrong constant term; receiver posts wrong share keys', {1: 'bad_F'}, {-2: 'wrong_V'}),
+    ('dealer sends an inconsistent sub-share; receiver files a false (b) complaint', {0: 'bad_sub'}, {-1: 'false_b_complaint'}),
+    ('dealer refuses a digest complaint; receiver withholds its share-key vector', {3: 'refuse_open'}, {-1: 'withhold_vec_refuse'}),
+    ('dealer withholds F; false availability complaints', {2: 'withhold_F'}, {-1: 'false_avail_complaint'}),
+]
+
+
+def _random_combined(n, t, rng):
+    """t-1 faulty old members and t-1 faulty new members, each with a random fault.
+    Old and new committees use the same indices; the faults are drawn independently."""
+    dealers = rng.sample(range(n), t - 1)
+    receivers = rng.sample(range(n), t - 1)
+    bd = {j: rng.choice(DEALER_FAULTS) for j in dealers}
+    if bd.get(0) == 'no_digest':                                  # dealer 0 is the target
+        bd[0] = 'bad_F'                                           # of false digest complaints
+    br = {k: rng.choice(RECEIVER_FAULTS) for k in receivers}
+    return bd, br
+
+
+def run_combined(configs, gamma, random_runs, seed):
+    """Dealers and receivers faulty at the same time: fixed pairs, then random
+    patterns with t-1 faulty members in each committee (seeded, reproducible)."""
+    import random
+    rng = random.Random(seed)
+    out = []
+    for (n, t) in configs:
+        cases = [(name, bd, br) for name, bd, br in COMBINED]
+        cases.append((f"{t-1} faulty dealers and {t-1} faulty receivers, mixed faults", chain(t),
+                      {n - 1 - k: RECEIVER_FAULTS[k % len(RECEIVER_FAULTS)] for k in range(t - 1)}))
+        for r_ in range(random_runs):
+            bd, br = _random_combined(n, t, rng)
+            cases.append((f"random pattern {r_ + 1}", bd, br))
+        for name, bd, br in cases:
+            bd = {j: b for j, b in bd.items() if j < n}
+            br = {k % n: b for k, b in br.items()}
+            res = handoff(n, t, gamma, bd, br)
+            out.append({"n": n, "t": t, "gamma": gamma, "scenario": name,
+                        "faulty_dealers": {str(j): b for j, b in sorted(bd.items())},
+                        "faulty_receivers": {str(k): b for k, b in sorted(br.items())},
+                        "attempts": res["attempts"], "disqualified_dealers": res["disq_dealers"],
+                        "disqualified_receivers": res["disq_receivers"],
+                        "honest_disqualified": res["honest_disqualified"],
+                        "secrets_correct": res["correct"],
+                        "ok": res["correct"] and not res["honest_disqualified"]})
+    return out
 
 
 def run_scenarios(configs, gamma):

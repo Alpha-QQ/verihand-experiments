@@ -1,0 +1,7944 @@
+{
+  "meta": {
+    "profile": "python",
+    "started": "2026-11-18T11:01:47",
+    "note": "Timings are machine-dependent; all other values are not.",
+    "runtime_s": 4.6
+  },
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "cpu_count": 20,
+    "python": "3.12.10"
+  },
+  "config": {
+    "output": "results-python.json",
+    "run": {
+      "attacks": true,
+      "a1_dynamic": true,
+      "corruption_grid": true,
+      "weight_timing": true,
+      "fault_handling": true,
+      "rust_handoff": false,
+      "rust_sweep": false,
+      "rust_baseline": false,
+      "rust_issuance": false,
+      "rust_revocation": false
+    },
+    "attacks": {
+      "a1_num_revoked": 3,
+      "n": 20,
+      "t": 7,
+      "gamma": 1000
+    },
+    "a1_dynamic": {
+      "n": 20,
+      "t": 7,
+      "gamma": 1000,
+      "joining": 8
+    },
+    "corruption_grid": {
+      "n": 20,
+      "t": 7,
+      "gamma": 200
+    },
+    "weight_timing": {
+      "configs": [
+        [
+          5,
+          3
+        ],
+        [
+          20,
+          7
+        ]
+      ],
+      "gamma": 30
+    },
+    "fault_handling": {
+      "configs": [
+        [
+          5,
+          3
+        ],
+        [
+          20,
+          7
+        ]
+      ],
+      "gamma": 8,
+      "combined_random_runs": 50,
+      "seed": 20261117
+    },
+    "cargo_target_dir": null
+  },
+  "attacks": {
+    "A1": {
+      "group_bits": 1024,
+      "num_revoked": 3,
+      "forged_witness_accepted": true
+    },
+    "A2": {
+      "n": 20,
+      "t": 7,
+      "gamma": 1000,
+      "corrupted_epoch_e_minus_1": 6,
+      "corrupted_epoch_e": 1,
+      "secrets_recovered": 1000,
+      "all_recovered": true
+    },
+    "Q3": {
+      "n": 20,
+      "t": 7,
+      "gamma": 1000,
+      "q3i_all_secrets_shifted": true,
+      "q3ii_subsets_disagree": true
+    },
+    "A3": {
+      "n": 20,
+      "t": 7,
+      "verifies_under_paper_pkC": false,
+      "verifies_under_correct_pkC": true
+    }
+  },
+  "a1_dynamic": {
+    "n": 20,
+    "t": 7,
+    "gamma": 1000,
+    "joining_members": 8,
+    "summary": {
+      "incoming/I": {
+        "a1_applies": true,
+        "via_schedules": [
+          "A",
+          "E"
+        ]
+      },
+      "incoming/II": {
+        "a1_applies": true,
+        "via_schedules": [
+          "B",
+          "C"
+        ]
+      },
+      "incoming/III": {
+        "a1_applies": false,
+        "via_schedules": []
+      },
+      "forwarding/I": {
+        "a1_applies": true,
+        "via_schedules": [
+          "E"
+        ]
+      },
+      "forwarding/II": {
+        "a1_applies": true,
+        "via_schedules": [
+          "C",
+          "D"
+        ]
+      },
+      "forwarding/III": {
+        "a1_applies": false,
+        "via_schedules": []
+      },
+      "verihand/II": {
+        "a1_applies": false,
+        "via_schedules": []
+      },
+      "verihand/III": {
+        "a1_applies": false,
+        "via_schedules": []
+      }
+    },
+    "records": [
+      {
+        "variant": "incoming",
+        "rule": "I",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "I",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": false,
+        "budget": null,
+        "admissible": false,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "I",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": false,
+        "budget": null,
+        "admissible": false,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "I",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": false,
+        "budget": null,
+        "admissible": false,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "I",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 7,
+        "new_shares_held": 0,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "II",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "II",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "II",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "II",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "II",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 0
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 0,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "III",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "III",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 7,
+          "e": 1
+        },
+        "admissible": false,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "III",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 7,
+          "e": 1
+        },
+        "admissible": false,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20",
+              "old_20"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "III",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "incoming",
+        "rule": "III",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 0
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 0,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "I",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "I",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": false,
+        "budget": null,
+        "admissible": false,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "I",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": false,
+        "budget": null,
+        "admissible": false,
+        "old_shares_held": 6,
+        "new_shares_held": 7,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "new_14",
+              "old_14"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "new_15",
+              "old_15"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "new_16",
+              "old_16"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "new_17",
+              "old_17"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "new_18",
+              "old_18"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "I",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": false,
+        "budget": null,
+        "admissible": false,
+        "old_shares_held": 6,
+        "new_shares_held": 7,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "new_14",
+              "old_14"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "new_15",
+              "old_15"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "new_16",
+              "old_16"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "new_17",
+              "old_17"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "new_18",
+              "old_18"
+            ],
+            "charged_to": null
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "I",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 7,
+        "new_shares_held": 1,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "II",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "II",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "II",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 7,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "new_14",
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "new_15",
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "new_16",
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "new_17",
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "new_18",
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "II",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 7,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "new_14",
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "new_15",
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "new_16",
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "new_17",
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "new_18",
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "II",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 0
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 0,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "III",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "III",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "III",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 7
+        },
+        "admissible": false,
+        "old_shares_held": 6,
+        "new_shares_held": 7,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "new_14",
+              "old_14"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "new_15",
+              "old_15"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "new_16",
+              "old_16"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "new_17",
+              "old_17"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "new_18",
+              "old_18"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "III",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 7
+        },
+        "admissible": false,
+        "old_shares_held": 6,
+        "new_shares_held": 7,
+        "secrets_recovered": 1000,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "new_13",
+              "old_13"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "new_14",
+              "old_14"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "new_15",
+              "old_15"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "new_16",
+              "old_16"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "new_17",
+              "old_17"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "new_18",
+              "old_18"
+            ],
+            "charged_to": [
+              "e",
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "forwarding",
+        "rule": "III",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 0
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 0,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "II",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "II",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "II",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "II",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "II",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 0
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 0,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [],
+            "charged_to": null
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "III",
+        "schedule": "A: t-1 old members in epoch e-1, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "III",
+        "schedule": "B: t-1 old members in epoch e-1, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "III",
+        "schedule": "C: t-1 departing members during W_e, joining member during W_e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "window",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "III",
+        "schedule": "D: t-1 departing members during W_e, joining member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 1
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 1,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "window",
+            "state": [
+              "old_13"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 14,
+            "time": "window",
+            "state": [
+              "old_14"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 15,
+            "time": "window",
+            "state": [
+              "old_15"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 16,
+            "time": "window",
+            "state": [
+              "old_16"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 17,
+            "time": "window",
+            "state": [
+              "old_17"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 18,
+            "time": "window",
+            "state": [
+              "old_18"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "joining",
+            "index": 20,
+            "time": "new",
+            "state": [
+              "new_20"
+            ],
+            "charged_to": [
+              "e"
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "verihand",
+        "rule": "III",
+        "schedule": "E: t-1 old members in epoch e-1, one departed member in epoch e",
+        "evaluable": true,
+        "budget": {
+          "e-1": 6,
+          "e": 0
+        },
+        "admissible": true,
+        "old_shares_held": 6,
+        "new_shares_held": 0,
+        "secrets_recovered": 0,
+        "gamma": 1000,
+        "events": [
+          {
+            "role": "staying",
+            "index": 1,
+            "time": "old",
+            "state": [
+              "old_1"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 2,
+            "time": "old",
+            "state": [
+              "old_2"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 3,
+            "time": "old",
+            "state": [
+              "old_3"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 4,
+            "time": "old",
+            "state": [
+              "old_4"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 5,
+            "time": "old",
+            "state": [
+              "old_5"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "staying",
+            "index": 6,
+            "time": "old",
+            "state": [
+              "old_6"
+            ],
+            "charged_to": [
+              "e-1"
+            ]
+          },
+          {
+            "role": "departing",
+            "index": 13,
+            "time": "new",
+            "state": [],
+            "charged_to": null
+          }
+        ]
+      }
+    ]
+  },
+  "corruption_grid": {
+    "n": 20,
+    "t": 7,
+    "gamma": 200,
+    "admissible_pairs": 49,
+    "dpdid_pairs_all_lost": 21,
+    "dpdid_lost_iff_a_plus_b_ge_t": true,
+    "verihand_pairs_any_lost": 0,
+    "cells": [
+      {
+        "a": 0,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 0,
+        "b": 1,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 0,
+        "b": 2,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 0,
+        "b": 3,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 0,
+        "b": 4,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 0,
+        "b": 5,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 0,
+        "b": 6,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 1,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 2,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 3,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 4,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 5,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 1,
+        "b": 6,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 1,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 2,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 3,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 4,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 5,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 2,
+        "b": 6,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 1,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 2,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 3,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 4,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 5,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 3,
+        "b": 6,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 1,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 2,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 3,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 4,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 5,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 4,
+        "b": 6,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 1,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 2,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 3,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 4,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 5,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 5,
+        "b": 6,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 0,
+        "dpdid_pct": 0.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 1,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 2,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 3,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 4,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 5,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      },
+      {
+        "a": 6,
+        "b": 6,
+        "dpdid_pct": 100.0,
+        "verihand_pct": 0.0
+      }
+    ]
+  },
+  "weight_timing": {
+    "shift_fixed_weights": [
+      {
+        "check_a_pass": true,
+        "check_b_pass_all": true,
+        "check_c_pass_all": true,
+        "secrets_correct": false,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 5,
+        "t": 3,
+        "gamma": 30,
+        "weights": "fixed",
+        "undetected_shift": true
+      },
+      {
+        "check_a_pass": true,
+        "check_b_pass_all": true,
+        "check_c_pass_all": true,
+        "secrets_correct": false,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 20,
+        "t": 7,
+        "gamma": 30,
+        "weights": "fixed",
+        "undetected_shift": true
+      }
+    ],
+    "shift_weights_after_F": [
+      {
+        "check_a_pass": false,
+        "check_b_pass_all": true,
+        "check_c_pass_all": true,
+        "secrets_correct": false,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 5,
+        "t": 3,
+        "gamma": 30,
+        "weights": "after_F",
+        "undetected_shift": false
+      },
+      {
+        "check_a_pass": false,
+        "check_b_pass_all": true,
+        "check_c_pass_all": true,
+        "secrets_correct": false,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 20,
+        "t": 7,
+        "gamma": 30,
+        "weights": "after_F",
+        "undetected_shift": false
+      }
+    ],
+    "cancel_weights_rho_only": [
+      {
+        "check_a_pass": true,
+        "check_b_pass_all": true,
+        "check_c_pass_all": false,
+        "secrets_correct": true,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 5,
+        "t": 3,
+        "gamma": 30,
+        "weights": "rho_only"
+      },
+      {
+        "check_a_pass": true,
+        "check_b_pass_all": true,
+        "check_c_pass_all": false,
+        "secrets_correct": true,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 20,
+        "t": 7,
+        "gamma": 30,
+        "weights": "rho_only"
+      }
+    ],
+    "cancel_weights_after_F": [
+      {
+        "check_a_pass": false,
+        "check_b_pass_all": false,
+        "check_c_pass_all": false,
+        "secrets_correct": true,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 5,
+        "t": 3,
+        "gamma": 30,
+        "weights": "after_F"
+      },
+      {
+        "check_a_pass": false,
+        "check_b_pass_all": false,
+        "check_c_pass_all": false,
+        "secrets_correct": true,
+        "dealers_failing_a_j": [
+          0,
+          1
+        ],
+        "n": 20,
+        "t": 7,
+        "gamma": 30,
+        "weights": "after_F"
+      }
+    ],
+    "theorem1_rejected_dealing": [
+      {
+        "n": 5,
+        "t": 3,
+        "delta": 5,
+        "keys_interpolate_to_shifted_secret": true,
+        "keys_differ_from_pk": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "delta": 5,
+        "keys_interpolate_to_shifted_secret": true,
+        "keys_differ_from_pk": true
+      }
+    ]
+  },
+  "fault_handling": {
+    "scenarios": 26,
+    "all_ok": true,
+    "max_attempts": 3,
+    "runs": [
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer in Q withholds F",
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer in Q posts a wrong constant term",
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer sends an inconsistent sub-share (digest matches)",
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer refuses to answer a digest complaint",
+        "attempts": 1,
+        "disqualified_dealers": [
+          3
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer posts no digest",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "receiver withholds its new share keys",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "receiver posts wrong share keys",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "receiver posts the hash but withholds its share-key vector",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "receiver withholds its vector until an availability complaint",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "false availability complaints against honest receivers",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "false digest complaint against an honest dealer",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "false (b) complaint against an honest dealer",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "2 faulty dealers in Q, mixed faults",
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          1
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer in Q withholds F",
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer in Q posts a wrong constant term",
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer sends an inconsistent sub-share (digest matches)",
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer refuses to answer a digest complaint",
+        "attempts": 1,
+        "disqualified_dealers": [
+          3
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer posts no digest",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "receiver withholds its new share keys",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "receiver posts wrong share keys",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "receiver posts the hash but withholds its share-key vector",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "receiver withholds its vector until an availability complaint",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "false availability complaints against honest receivers",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "false digest complaint against an honest dealer",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "false (b) complaint against an honest dealer",
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "6 faulty dealers in Q, mixed faults",
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      }
+    ]
+  },
+  "fault_handling_combined": {
+    "scenarios": 110,
+    "all_ok": true,
+    "max_attempts": 6,
+    "runs": [
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer posts a wrong constant term; receiver posts wrong share keys",
+        "faulty_dealers": {
+          "1": "bad_F"
+        },
+        "faulty_receivers": {
+          "3": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer sends an inconsistent sub-share; receiver files a false (b) complaint",
+        "faulty_dealers": {
+          "0": "bad_sub"
+        },
+        "faulty_receivers": {
+          "4": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer refuses a digest complaint; receiver withholds its share-key vector",
+        "faulty_dealers": {
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "4": "withhold_vec_refuse"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          3
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "dealer withholds F; false availability complaints",
+        "faulty_dealers": {
+          "2": "withhold_F"
+        },
+        "faulty_receivers": {
+          "4": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "2 faulty dealers and 2 faulty receivers, mixed faults",
+        "faulty_dealers": {
+          "0": "withhold_F",
+          "1": "bad_F"
+        },
+        "faulty_receivers": {
+          "3": "wrong_V",
+          "4": "withhold_V"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          1
+        ],
+        "disqualified_receivers": [
+          3,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 1",
+        "faulty_dealers": {
+          "0": "bad_sub",
+          "1": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "4": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          1
+        ],
+        "disqualified_receivers": [
+          1,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 2",
+        "faulty_dealers": {
+          "2": "digest_mismatch",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_refuse",
+          "4": "withhold_vec_refuse"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          0,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 3",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "3": "withhold_vec_refuse",
+          "4": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          3
+        ],
+        "disqualified_receivers": [
+          3,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 4",
+        "faulty_dealers": {
+          "1": "bad_F",
+          "4": "no_digest"
+        },
+        "faulty_receivers": {
+          "1": "false_avail_complaint",
+          "4": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 5",
+        "faulty_dealers": {
+          "0": "withhold_F",
+          "1": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "1": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [
+          0,
+          1
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 6",
+        "faulty_dealers": {
+          "1": "digest_mismatch",
+          "4": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "false_digest_complaint",
+          "2": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 7",
+        "faulty_dealers": {
+          "2": "no_digest",
+          "4": "bad_F"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_refuse",
+          "4": "false_digest_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          0
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 8",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "2": "refuse_open"
+        },
+        "faulty_receivers": {
+          "2": "false_digest_complaint",
+          "3": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1,
+          2
+        ],
+        "disqualified_receivers": [
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 9",
+        "faulty_dealers": {
+          "2": "no_digest",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "withhold_V",
+          "3": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          3
+        ],
+        "disqualified_receivers": [
+          1
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 10",
+        "faulty_dealers": {
+          "2": "digest_mismatch",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "3": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 11",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "false_b_complaint",
+          "2": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          1,
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 12",
+        "faulty_dealers": {
+          "1": "bad_sub",
+          "4": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "wrong_V",
+          "4": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          0,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 13",
+        "faulty_dealers": {
+          "0": "bad_sub",
+          "2": "bad_F"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_refuse",
+          "2": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          2
+        ],
+        "disqualified_receivers": [
+          0
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 14",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "2": "bad_F"
+        },
+        "faulty_receivers": {
+          "2": "wrong_V",
+          "3": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 15",
+        "faulty_dealers": {
+          "3": "no_digest",
+          "4": "bad_F"
+        },
+        "faulty_receivers": {
+          "0": "wrong_V",
+          "3": "false_b_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          0,
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 16",
+        "faulty_dealers": {
+          "0": "refuse_open",
+          "1": "refuse_open"
+        },
+        "faulty_receivers": {
+          "2": "false_avail_complaint",
+          "3": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          0,
+          1
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 17",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "2": "refuse_open"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "2": "false_digest_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 18",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "1": "withhold_F"
+        },
+        "faulty_receivers": {
+          "0": "false_b_complaint",
+          "1": "withhold_vec_refuse"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          1
+        ],
+        "disqualified_receivers": [
+          0,
+          1
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 19",
+        "faulty_dealers": {
+          "2": "bad_F",
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "0": "false_digest_complaint",
+          "3": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 20",
+        "faulty_dealers": {
+          "3": "no_digest",
+          "4": "refuse_open"
+        },
+        "faulty_receivers": {
+          "3": "withhold_vec_publish",
+          "4": "withhold_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          4
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 21",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "1": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "false_avail_complaint",
+          "4": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 22",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "2": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "withhold_V",
+          "2": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [
+          1,
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 23",
+        "faulty_dealers": {
+          "2": "no_digest",
+          "3": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "3": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          0
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 24",
+        "faulty_dealers": {
+          "1": "bad_F",
+          "4": "no_digest"
+        },
+        "faulty_receivers": {
+          "2": "withhold_vec_refuse",
+          "3": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          2,
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 25",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "2": "withhold_F"
+        },
+        "faulty_receivers": {
+          "2": "false_b_complaint",
+          "4": "withhold_vec_refuse"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          2
+        ],
+        "disqualified_receivers": [
+          2,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 26",
+        "faulty_dealers": {
+          "2": "bad_F",
+          "4": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "2": "false_avail_complaint",
+          "4": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 27",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "4": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_publish",
+          "4": "withhold_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 28",
+        "faulty_dealers": {
+          "0": "refuse_open",
+          "1": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "false_b_complaint",
+          "4": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [
+          0,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 29",
+        "faulty_dealers": {
+          "1": "bad_sub",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "3": "withhold_vec_refuse"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          1,
+          3
+        ],
+        "disqualified_receivers": [
+          1,
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 30",
+        "faulty_dealers": {
+          "2": "no_digest",
+          "4": "bad_sub"
+        },
+        "faulty_receivers": {
+          "2": "false_avail_complaint",
+          "4": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 31",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "2": "withhold_vec_refuse"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [
+          1,
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 32",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "3": "false_digest_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [
+          0
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 33",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "4": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "2": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [
+          1,
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 34",
+        "faulty_dealers": {
+          "3": "digest_mismatch",
+          "4": "withhold_F"
+        },
+        "faulty_receivers": {
+          "0": "false_digest_complaint",
+          "1": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          1
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 35",
+        "faulty_dealers": {
+          "3": "withhold_F",
+          "4": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "1": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          0
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 36",
+        "faulty_dealers": {
+          "2": "no_digest",
+          "4": "refuse_open"
+        },
+        "faulty_receivers": {
+          "2": "false_b_complaint",
+          "4": "false_digest_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          4
+        ],
+        "disqualified_receivers": [
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 37",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "2": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "false_avail_complaint",
+          "4": "false_b_complaint"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          1,
+          2
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 38",
+        "faulty_dealers": {
+          "2": "digest_mismatch",
+          "4": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "false_b_complaint",
+          "4": "withhold_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          1,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 39",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "2": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "wrong_V",
+          "4": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          2
+        ],
+        "disqualified_receivers": [
+          1
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 40",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_refuse",
+          "3": "wrong_V"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [
+          0,
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 41",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "4": "refuse_open"
+        },
+        "faulty_receivers": {
+          "0": "false_avail_complaint",
+          "3": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          4
+        ],
+        "disqualified_receivers": [
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 42",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "false_digest_complaint",
+          "1": "withhold_vec_publish"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 43",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "1": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "2": "false_digest_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          1
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 44",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "4": "refuse_open"
+        },
+        "faulty_receivers": {
+          "3": "wrong_V",
+          "4": "false_digest_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          4
+        ],
+        "disqualified_receivers": [
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 45",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "2": "refuse_open"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_refuse",
+          "3": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          2
+        ],
+        "disqualified_receivers": [
+          0
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 46",
+        "faulty_dealers": {
+          "0": "refuse_open",
+          "4": "refuse_open"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_publish",
+          "3": "false_digest_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          0,
+          4
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 47",
+        "faulty_dealers": {
+          "0": "refuse_open",
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "0": "wrong_V",
+          "3": "withhold_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          0,
+          3
+        ],
+        "disqualified_receivers": [
+          0,
+          3
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 48",
+        "faulty_dealers": {
+          "2": "refuse_open",
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "3": "false_digest_complaint",
+          "4": "withhold_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 49",
+        "faulty_dealers": {
+          "0": "bad_sub",
+          "4": "bad_F"
+        },
+        "faulty_receivers": {
+          "0": "wrong_V",
+          "4": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [
+          0,
+          4
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 5,
+        "t": 3,
+        "gamma": 8,
+        "scenario": "random pattern 50",
+        "faulty_dealers": {
+          "2": "refuse_open",
+          "3": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "withhold_V",
+          "2": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          3
+        ],
+        "disqualified_receivers": [
+          1,
+          2
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer posts a wrong constant term; receiver posts wrong share keys",
+        "faulty_dealers": {
+          "1": "bad_F"
+        },
+        "faulty_receivers": {
+          "18": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer sends an inconsistent sub-share; receiver files a false (b) complaint",
+        "faulty_dealers": {
+          "0": "bad_sub"
+        },
+        "faulty_receivers": {
+          "19": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0
+        ],
+        "disqualified_receivers": [
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer refuses a digest complaint; receiver withholds its share-key vector",
+        "faulty_dealers": {
+          "3": "refuse_open"
+        },
+        "faulty_receivers": {
+          "19": "withhold_vec_refuse"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          3
+        ],
+        "disqualified_receivers": [
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "dealer withholds F; false availability complaints",
+        "faulty_dealers": {
+          "2": "withhold_F"
+        },
+        "faulty_receivers": {
+          "19": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "6 faulty dealers and 6 faulty receivers, mixed faults",
+        "faulty_dealers": {
+          "0": "withhold_F",
+          "1": "bad_F",
+          "2": "bad_sub",
+          "3": "refuse_open",
+          "4": "withhold_F",
+          "5": "bad_F"
+        },
+        "faulty_receivers": {
+          "14": "false_digest_complaint",
+          "15": "false_avail_complaint",
+          "16": "withhold_vec_publish",
+          "17": "withhold_vec_refuse",
+          "18": "wrong_V",
+          "19": "withhold_V"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "disqualified_receivers": [
+          17,
+          18,
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 1",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "4": "bad_F",
+          "5": "digest_mismatch",
+          "12": "no_digest",
+          "15": "digest_mismatch",
+          "16": "withhold_F"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "3": "withhold_vec_refuse",
+          "5": "withhold_vec_refuse",
+          "11": "wrong_V",
+          "14": "false_avail_complaint",
+          "15": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          4
+        ],
+        "disqualified_receivers": [
+          3,
+          5,
+          11,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 2",
+        "faulty_dealers": {
+          "3": "digest_mismatch",
+          "10": "withhold_F",
+          "11": "bad_F",
+          "13": "no_digest",
+          "14": "bad_sub",
+          "18": "withhold_F"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_refuse",
+          "1": "false_avail_complaint",
+          "3": "withhold_vec_publish",
+          "4": "withhold_vec_refuse",
+          "12": "false_b_complaint",
+          "17": "false_b_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          0,
+          4,
+          12,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 3",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "3": "bad_sub",
+          "7": "withhold_F",
+          "15": "no_digest",
+          "16": "digest_mismatch",
+          "18": "bad_F"
+        },
+        "faulty_receivers": {
+          "4": "withhold_vec_refuse",
+          "10": "false_digest_complaint",
+          "11": "wrong_V",
+          "15": "withhold_vec_publish",
+          "16": "false_digest_complaint",
+          "18": "withhold_V"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          3,
+          7
+        ],
+        "disqualified_receivers": [
+          4,
+          11,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 4",
+        "faulty_dealers": {
+          "4": "withhold_F",
+          "10": "withhold_F",
+          "12": "withhold_F",
+          "15": "digest_mismatch",
+          "17": "refuse_open",
+          "19": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "withhold_V",
+          "4": "false_b_complaint",
+          "9": "withhold_vec_publish",
+          "11": "false_b_complaint",
+          "14": "withhold_vec_refuse",
+          "16": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          4,
+          17
+        ],
+        "disqualified_receivers": [
+          1,
+          4,
+          11,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 5",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "2": "no_digest",
+          "6": "digest_mismatch",
+          "11": "refuse_open",
+          "13": "digest_mismatch",
+          "19": "refuse_open"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "6": "false_avail_complaint",
+          "7": "false_b_complaint",
+          "10": "withhold_vec_publish",
+          "11": "withhold_vec_refuse",
+          "12": "withhold_vec_refuse"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          11,
+          19
+        ],
+        "disqualified_receivers": [
+          7,
+          11,
+          12
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 6",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "7": "bad_sub",
+          "9": "no_digest",
+          "10": "digest_mismatch",
+          "17": "no_digest",
+          "18": "bad_sub"
+        },
+        "faulty_receivers": {
+          "3": "false_b_complaint",
+          "11": "withhold_vec_publish",
+          "14": "false_avail_complaint",
+          "16": "wrong_V",
+          "17": "false_digest_complaint",
+          "18": "withhold_vec_publish"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          7
+        ],
+        "disqualified_receivers": [
+          3,
+          16
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 7",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "3": "withhold_F",
+          "6": "bad_sub",
+          "7": "bad_sub",
+          "13": "digest_mismatch",
+          "19": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "false_b_complaint",
+          "1": "false_avail_complaint",
+          "5": "false_digest_complaint",
+          "6": "withhold_vec_publish",
+          "14": "withhold_vec_refuse",
+          "19": "withhold_vec_publish"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          3,
+          6,
+          7
+        ],
+        "disqualified_receivers": [
+          0,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 8",
+        "faulty_dealers": {
+          "4": "digest_mismatch",
+          "8": "digest_mismatch",
+          "13": "no_digest",
+          "14": "bad_sub",
+          "17": "bad_F",
+          "19": "bad_sub"
+        },
+        "faulty_receivers": {
+          "3": "withhold_vec_refuse",
+          "4": "withhold_vec_publish",
+          "11": "false_avail_complaint",
+          "17": "withhold_vec_refuse",
+          "18": "withhold_V",
+          "19": "withhold_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          3,
+          17,
+          18,
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 9",
+        "faulty_dealers": {
+          "1": "bad_F",
+          "4": "withhold_F",
+          "5": "refuse_open",
+          "7": "digest_mismatch",
+          "8": "withhold_F",
+          "11": "no_digest"
+        },
+        "faulty_receivers": {
+          "7": "wrong_V",
+          "8": "withhold_V",
+          "9": "withhold_vec_publish",
+          "10": "withhold_vec_publish",
+          "13": "withhold_vec_refuse",
+          "14": "withhold_V"
+        },
+        "attempts": 4,
+        "disqualified_dealers": [
+          1,
+          4,
+          5,
+          8
+        ],
+        "disqualified_receivers": [
+          7,
+          8,
+          13,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 10",
+        "faulty_dealers": {
+          "1": "digest_mismatch",
+          "2": "refuse_open",
+          "4": "withhold_F",
+          "9": "digest_mismatch",
+          "16": "digest_mismatch",
+          "17": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_publish",
+          "7": "false_avail_complaint",
+          "9": "false_digest_complaint",
+          "11": "withhold_vec_refuse",
+          "15": "wrong_V",
+          "16": "false_digest_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          4
+        ],
+        "disqualified_receivers": [
+          11,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 11",
+        "faulty_dealers": {
+          "6": "refuse_open",
+          "7": "bad_F",
+          "9": "bad_F",
+          "11": "digest_mismatch",
+          "12": "withhold_F",
+          "17": "bad_sub"
+        },
+        "faulty_receivers": {
+          "0": "wrong_V",
+          "2": "withhold_V",
+          "8": "false_digest_complaint",
+          "13": "false_digest_complaint",
+          "14": "withhold_vec_refuse",
+          "16": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          6,
+          7
+        ],
+        "disqualified_receivers": [
+          0,
+          2,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 12",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "1": "no_digest",
+          "2": "withhold_F",
+          "8": "refuse_open",
+          "12": "digest_mismatch",
+          "16": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "3": "withhold_V",
+          "6": "wrong_V",
+          "7": "withhold_V",
+          "12": "wrong_V",
+          "13": "withhold_vec_refuse"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          8
+        ],
+        "disqualified_receivers": [
+          0,
+          3,
+          6,
+          7,
+          12,
+          13
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 13",
+        "faulty_dealers": {
+          "1": "digest_mismatch",
+          "8": "bad_F",
+          "9": "no_digest",
+          "10": "bad_sub",
+          "11": "bad_F",
+          "12": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "2": "false_digest_complaint",
+          "8": "withhold_vec_publish",
+          "12": "withhold_vec_publish",
+          "15": "false_b_complaint",
+          "16": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [],
+        "disqualified_receivers": [
+          1,
+          15,
+          16
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 14",
+        "faulty_dealers": {
+          "4": "withhold_F",
+          "7": "digest_mismatch",
+          "9": "bad_sub",
+          "10": "bad_sub",
+          "17": "bad_F",
+          "18": "no_digest"
+        },
+        "faulty_receivers": {
+          "2": "wrong_V",
+          "5": "withhold_vec_refuse",
+          "9": "false_avail_complaint",
+          "10": "false_b_complaint",
+          "13": "false_b_complaint",
+          "17": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          4
+        ],
+        "disqualified_receivers": [
+          2,
+          5,
+          10,
+          13,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 15",
+        "faulty_dealers": {
+          "6": "digest_mismatch",
+          "9": "bad_sub",
+          "12": "bad_sub",
+          "13": "refuse_open",
+          "14": "digest_mismatch",
+          "15": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "1": "false_b_complaint",
+          "3": "false_b_complaint",
+          "4": "withhold_V",
+          "9": "false_b_complaint",
+          "16": "false_avail_complaint",
+          "18": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          13
+        ],
+        "disqualified_receivers": [
+          1,
+          3,
+          4,
+          9
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 16",
+        "faulty_dealers": {
+          "0": "withhold_F",
+          "3": "refuse_open",
+          "4": "digest_mismatch",
+          "10": "bad_sub",
+          "12": "digest_mismatch",
+          "16": "refuse_open"
+        },
+        "faulty_receivers": {
+          "2": "withhold_V",
+          "3": "wrong_V",
+          "6": "withhold_V",
+          "12": "wrong_V",
+          "17": "false_b_complaint",
+          "19": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          3,
+          16
+        ],
+        "disqualified_receivers": [
+          2,
+          3,
+          6,
+          12,
+          17,
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 17",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "2": "digest_mismatch",
+          "8": "refuse_open",
+          "12": "bad_F",
+          "16": "withhold_F",
+          "19": "no_digest"
+        },
+        "faulty_receivers": {
+          "2": "withhold_vec_refuse",
+          "3": "withhold_vec_refuse",
+          "7": "wrong_V",
+          "9": "wrong_V",
+          "11": "withhold_vec_publish",
+          "13": "withhold_vec_refuse"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          8
+        ],
+        "disqualified_receivers": [
+          2,
+          3,
+          7,
+          9,
+          13
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 18",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "4": "bad_sub",
+          "5": "bad_sub",
+          "10": "digest_mismatch",
+          "17": "digest_mismatch",
+          "18": "no_digest"
+        },
+        "faulty_receivers": {
+          "4": "false_digest_complaint",
+          "6": "false_digest_complaint",
+          "7": "false_b_complaint",
+          "8": "withhold_V",
+          "15": "withhold_vec_publish",
+          "18": "withhold_vec_refuse"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          4,
+          5
+        ],
+        "disqualified_receivers": [
+          7,
+          8,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 19",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "3": "bad_F",
+          "5": "refuse_open",
+          "7": "digest_mismatch",
+          "9": "withhold_F",
+          "13": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "false_avail_complaint",
+          "1": "withhold_vec_publish",
+          "6": "false_b_complaint",
+          "16": "wrong_V",
+          "17": "withhold_V",
+          "18": "withhold_vec_refuse"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          3,
+          5,
+          9
+        ],
+        "disqualified_receivers": [
+          6,
+          16,
+          17,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 20",
+        "faulty_dealers": {
+          "1": "bad_F",
+          "2": "withhold_F",
+          "3": "no_digest",
+          "9": "withhold_F",
+          "10": "withhold_F",
+          "11": "bad_sub"
+        },
+        "faulty_receivers": {
+          "4": "false_digest_complaint",
+          "9": "false_b_complaint",
+          "11": "false_b_complaint",
+          "12": "wrong_V",
+          "15": "withhold_vec_publish",
+          "16": "withhold_vec_refuse"
+        },
+        "attempts": 6,
+        "disqualified_dealers": [
+          1,
+          2,
+          9,
+          10,
+          11
+        ],
+        "disqualified_receivers": [
+          9,
+          11,
+          12,
+          16
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 21",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "2": "digest_mismatch",
+          "4": "refuse_open",
+          "6": "no_digest",
+          "13": "bad_sub",
+          "18": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_publish",
+          "2": "withhold_vec_publish",
+          "4": "withhold_V",
+          "11": "wrong_V",
+          "12": "withhold_V",
+          "14": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1,
+          4
+        ],
+        "disqualified_receivers": [
+          4,
+          11,
+          12,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 22",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "3": "bad_sub",
+          "6": "bad_F",
+          "8": "no_digest",
+          "13": "bad_sub",
+          "18": "refuse_open"
+        },
+        "faulty_receivers": {
+          "3": "wrong_V",
+          "5": "false_digest_complaint",
+          "7": "false_avail_complaint",
+          "8": "wrong_V",
+          "9": "false_b_complaint",
+          "11": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          3,
+          6,
+          18
+        ],
+        "disqualified_receivers": [
+          3,
+          8,
+          9,
+          11
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 23",
+        "faulty_dealers": {
+          "6": "no_digest",
+          "12": "withhold_F",
+          "13": "refuse_open",
+          "14": "digest_mismatch",
+          "15": "no_digest",
+          "19": "refuse_open"
+        },
+        "faulty_receivers": {
+          "1": "false_b_complaint",
+          "5": "wrong_V",
+          "9": "withhold_vec_publish",
+          "10": "false_digest_complaint",
+          "15": "withhold_vec_publish",
+          "18": "withhold_vec_refuse"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          13,
+          19
+        ],
+        "disqualified_receivers": [
+          1,
+          5,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 24",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "2": "withhold_F",
+          "5": "bad_F",
+          "10": "withhold_F",
+          "15": "refuse_open",
+          "19": "refuse_open"
+        },
+        "faulty_receivers": {
+          "1": "withhold_V",
+          "8": "withhold_V",
+          "9": "false_avail_complaint",
+          "10": "false_digest_complaint",
+          "16": "wrong_V",
+          "18": "wrong_V"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          2,
+          5,
+          15,
+          19
+        ],
+        "disqualified_receivers": [
+          1,
+          8,
+          16,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 25",
+        "faulty_dealers": {
+          "3": "refuse_open",
+          "6": "digest_mismatch",
+          "8": "digest_mismatch",
+          "10": "no_digest",
+          "12": "bad_sub",
+          "18": "refuse_open"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "2": "false_digest_complaint",
+          "3": "false_b_complaint",
+          "10": "withhold_vec_refuse",
+          "12": "withhold_vec_refuse",
+          "19": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          3,
+          18
+        ],
+        "disqualified_receivers": [
+          0,
+          3,
+          10,
+          12
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 26",
+        "faulty_dealers": {
+          "3": "bad_F",
+          "6": "bad_sub",
+          "8": "digest_mismatch",
+          "10": "digest_mismatch",
+          "12": "digest_mismatch",
+          "19": "bad_F"
+        },
+        "faulty_receivers": {
+          "4": "withhold_V",
+          "6": "withhold_V",
+          "10": "false_b_complaint",
+          "11": "false_avail_complaint",
+          "15": "wrong_V",
+          "19": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          3,
+          6
+        ],
+        "disqualified_receivers": [
+          4,
+          6,
+          10,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 27",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "4": "no_digest",
+          "7": "refuse_open",
+          "8": "withhold_F",
+          "10": "refuse_open",
+          "12": "bad_F"
+        },
+        "faulty_receivers": {
+          "3": "false_b_complaint",
+          "5": "withhold_vec_refuse",
+          "6": "withhold_V",
+          "8": "withhold_vec_publish",
+          "14": "false_digest_complaint",
+          "17": "false_avail_complaint"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          0,
+          7,
+          8,
+          10
+        ],
+        "disqualified_receivers": [
+          3,
+          5,
+          6
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 28",
+        "faulty_dealers": {
+          "3": "digest_mismatch",
+          "4": "refuse_open",
+          "6": "no_digest",
+          "10": "withhold_F",
+          "16": "refuse_open",
+          "19": "withhold_F"
+        },
+        "faulty_receivers": {
+          "1": "false_b_complaint",
+          "3": "false_avail_complaint",
+          "5": "false_b_complaint",
+          "10": "withhold_vec_refuse",
+          "16": "wrong_V",
+          "17": "withhold_vec_refuse"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          4,
+          16
+        ],
+        "disqualified_receivers": [
+          1,
+          5,
+          10,
+          16,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 29",
+        "faulty_dealers": {
+          "1": "digest_mismatch",
+          "2": "bad_F",
+          "12": "withhold_F",
+          "14": "no_digest",
+          "17": "bad_F",
+          "18": "bad_F"
+        },
+        "faulty_receivers": {
+          "5": "false_avail_complaint",
+          "8": "withhold_vec_publish",
+          "10": "false_digest_complaint",
+          "14": "false_avail_complaint",
+          "16": "withhold_V",
+          "19": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [
+          16
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 30",
+        "faulty_dealers": {
+          "4": "refuse_open",
+          "6": "bad_sub",
+          "9": "no_digest",
+          "10": "refuse_open",
+          "11": "withhold_F",
+          "15": "withhold_F"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "2": "withhold_vec_refuse",
+          "3": "false_digest_complaint",
+          "5": "wrong_V",
+          "8": "false_avail_complaint",
+          "18": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          4,
+          6,
+          10
+        ],
+        "disqualified_receivers": [
+          2,
+          5,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 31",
+        "faulty_dealers": {
+          "2": "withhold_F",
+          "4": "bad_F",
+          "7": "digest_mismatch",
+          "8": "digest_mismatch",
+          "10": "bad_F",
+          "13": "bad_sub"
+        },
+        "faulty_receivers": {
+          "4": "withhold_V",
+          "7": "withhold_vec_publish",
+          "8": "false_b_complaint",
+          "9": "wrong_V",
+          "12": "withhold_vec_publish",
+          "16": "false_avail_complaint"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          2,
+          4
+        ],
+        "disqualified_receivers": [
+          4,
+          8,
+          9
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 32",
+        "faulty_dealers": {
+          "3": "no_digest",
+          "8": "digest_mismatch",
+          "11": "bad_F",
+          "13": "digest_mismatch",
+          "16": "refuse_open",
+          "17": "no_digest"
+        },
+        "faulty_receivers": {
+          "1": "false_b_complaint",
+          "5": "withhold_vec_publish",
+          "7": "wrong_V",
+          "12": "withhold_V",
+          "14": "withhold_vec_refuse",
+          "19": "false_digest_complaint"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          16
+        ],
+        "disqualified_receivers": [
+          1,
+          7,
+          12,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 33",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "3": "bad_sub",
+          "5": "no_digest",
+          "6": "bad_F",
+          "14": "bad_sub",
+          "18": "refuse_open"
+        },
+        "faulty_receivers": {
+          "11": "false_digest_complaint",
+          "12": "withhold_V",
+          "13": "false_avail_complaint",
+          "14": "false_digest_complaint",
+          "17": "wrong_V",
+          "19": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2,
+          3,
+          6,
+          18
+        ],
+        "disqualified_receivers": [
+          12,
+          17,
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 34",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "3": "digest_mismatch",
+          "14": "digest_mismatch",
+          "17": "refuse_open",
+          "18": "withhold_F",
+          "19": "bad_sub"
+        },
+        "faulty_receivers": {
+          "3": "false_b_complaint",
+          "5": "false_digest_complaint",
+          "9": "withhold_vec_refuse",
+          "16": "false_b_complaint",
+          "18": "withhold_vec_refuse",
+          "19": "false_b_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          17
+        ],
+        "disqualified_receivers": [
+          3,
+          9,
+          16,
+          18,
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 35",
+        "faulty_dealers": {
+          "5": "digest_mismatch",
+          "7": "withhold_F",
+          "11": "refuse_open",
+          "13": "no_digest",
+          "15": "digest_mismatch",
+          "16": "no_digest"
+        },
+        "faulty_receivers": {
+          "2": "withhold_V",
+          "8": "false_avail_complaint",
+          "12": "false_b_complaint",
+          "13": "false_avail_complaint",
+          "15": "wrong_V",
+          "17": "withhold_vec_publish"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          11
+        ],
+        "disqualified_receivers": [
+          2,
+          12,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 36",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "9": "withhold_F",
+          "11": "bad_F",
+          "12": "refuse_open",
+          "18": "bad_sub",
+          "19": "bad_F"
+        },
+        "faulty_receivers": {
+          "5": "withhold_vec_refuse",
+          "6": "withhold_vec_refuse",
+          "7": "false_b_complaint",
+          "12": "false_avail_complaint",
+          "14": "false_b_complaint",
+          "15": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1,
+          12
+        ],
+        "disqualified_receivers": [
+          5,
+          6,
+          7,
+          14,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 37",
+        "faulty_dealers": {
+          "1": "bad_sub",
+          "3": "no_digest",
+          "15": "withhold_F",
+          "16": "bad_sub",
+          "17": "bad_sub",
+          "19": "withhold_F"
+        },
+        "faulty_receivers": {
+          "4": "wrong_V",
+          "7": "withhold_V",
+          "11": "false_b_complaint",
+          "15": "withhold_vec_refuse",
+          "18": "false_digest_complaint",
+          "19": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          4,
+          7,
+          11,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 38",
+        "faulty_dealers": {
+          "4": "no_digest",
+          "10": "digest_mismatch",
+          "11": "no_digest",
+          "13": "digest_mismatch",
+          "17": "bad_F",
+          "18": "refuse_open"
+        },
+        "faulty_receivers": {
+          "2": "wrong_V",
+          "6": "withhold_vec_refuse",
+          "7": "withhold_vec_publish",
+          "8": "withhold_V",
+          "10": "wrong_V",
+          "17": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          18
+        ],
+        "disqualified_receivers": [
+          2,
+          6,
+          8,
+          10,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 39",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "2": "bad_sub",
+          "3": "digest_mismatch",
+          "4": "bad_F",
+          "11": "refuse_open",
+          "12": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "0": "withhold_vec_publish",
+          "3": "false_b_complaint",
+          "5": "withhold_vec_refuse",
+          "15": "withhold_vec_refuse",
+          "16": "withhold_V",
+          "17": "false_digest_complaint"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          1,
+          2,
+          4,
+          11
+        ],
+        "disqualified_receivers": [
+          3,
+          5,
+          15,
+          16
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 40",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "3": "no_digest",
+          "5": "no_digest",
+          "12": "no_digest",
+          "18": "no_digest",
+          "19": "bad_sub"
+        },
+        "faulty_receivers": {
+          "4": "false_avail_complaint",
+          "9": "wrong_V",
+          "14": "false_b_complaint",
+          "15": "withhold_vec_refuse",
+          "16": "wrong_V",
+          "18": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          9,
+          14,
+          15,
+          16,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 41",
+        "faulty_dealers": {
+          "2": "bad_sub",
+          "4": "digest_mismatch",
+          "9": "digest_mismatch",
+          "11": "bad_F",
+          "15": "no_digest",
+          "16": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "3": "withhold_vec_refuse",
+          "6": "withhold_V",
+          "8": "withhold_V",
+          "15": "withhold_V",
+          "18": "wrong_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [
+          1,
+          3,
+          6,
+          8,
+          15,
+          18
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 42",
+        "faulty_dealers": {
+          "0": "bad_F",
+          "3": "digest_mismatch",
+          "6": "bad_F",
+          "10": "refuse_open",
+          "12": "no_digest",
+          "14": "digest_mismatch"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "2": "false_b_complaint",
+          "4": "false_digest_complaint",
+          "7": "wrong_V",
+          "10": "wrong_V",
+          "19": "withhold_V"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          6,
+          10
+        ],
+        "disqualified_receivers": [
+          0,
+          2,
+          7,
+          10,
+          19
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 43",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "2": "refuse_open",
+          "4": "digest_mismatch",
+          "7": "no_digest",
+          "12": "bad_F",
+          "15": "no_digest"
+        },
+        "faulty_receivers": {
+          "1": "wrong_V",
+          "5": "withhold_vec_refuse",
+          "8": "false_avail_complaint",
+          "11": "false_b_complaint",
+          "14": "withhold_V",
+          "15": "wrong_V"
+        },
+        "attempts": 1,
+        "disqualified_dealers": [
+          2
+        ],
+        "disqualified_receivers": [
+          1,
+          5,
+          11,
+          14,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 44",
+        "faulty_dealers": {
+          "1": "no_digest",
+          "3": "bad_sub",
+          "4": "no_digest",
+          "11": "bad_F",
+          "15": "no_digest",
+          "19": "refuse_open"
+        },
+        "faulty_receivers": {
+          "3": "false_avail_complaint",
+          "4": "withhold_vec_publish",
+          "14": "withhold_vec_publish",
+          "15": "false_b_complaint",
+          "17": "withhold_V",
+          "18": "false_digest_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          3,
+          19
+        ],
+        "disqualified_receivers": [
+          15,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 45",
+        "faulty_dealers": {
+          "0": "digest_mismatch",
+          "6": "bad_F",
+          "7": "withhold_F",
+          "8": "no_digest",
+          "14": "no_digest",
+          "15": "withhold_F"
+        },
+        "faulty_receivers": {
+          "0": "withhold_V",
+          "2": "withhold_vec_refuse",
+          "3": "withhold_V",
+          "4": "wrong_V",
+          "5": "withhold_vec_refuse",
+          "16": "withhold_vec_refuse"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          6,
+          7
+        ],
+        "disqualified_receivers": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          16
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 46",
+        "faulty_dealers": {
+          "4": "no_digest",
+          "5": "refuse_open",
+          "8": "withhold_F",
+          "11": "withhold_F",
+          "12": "withhold_F",
+          "16": "bad_F"
+        },
+        "faulty_receivers": {
+          "1": "withhold_vec_refuse",
+          "2": "withhold_vec_refuse",
+          "9": "false_digest_complaint",
+          "10": "false_avail_complaint",
+          "15": "false_b_complaint",
+          "19": "withhold_vec_publish"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          5,
+          8
+        ],
+        "disqualified_receivers": [
+          1,
+          2,
+          15
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 47",
+        "faulty_dealers": {
+          "2": "digest_mismatch",
+          "3": "bad_F",
+          "10": "bad_F",
+          "11": "no_digest",
+          "17": "bad_sub",
+          "19": "no_digest"
+        },
+        "faulty_receivers": {
+          "0": "wrong_V",
+          "3": "wrong_V",
+          "5": "false_digest_complaint",
+          "7": "wrong_V",
+          "9": "withhold_V",
+          "17": "withhold_vec_refuse"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          3
+        ],
+        "disqualified_receivers": [
+          0,
+          3,
+          7,
+          9,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 48",
+        "faulty_dealers": {
+          "2": "no_digest",
+          "3": "no_digest",
+          "4": "withhold_F",
+          "6": "bad_sub",
+          "9": "refuse_open",
+          "13": "bad_sub"
+        },
+        "faulty_receivers": {
+          "1": "false_digest_complaint",
+          "2": "wrong_V",
+          "3": "false_b_complaint",
+          "4": "withhold_vec_refuse",
+          "9": "withhold_vec_refuse",
+          "12": "withhold_vec_publish"
+        },
+        "attempts": 3,
+        "disqualified_dealers": [
+          4,
+          6,
+          9
+        ],
+        "disqualified_receivers": [
+          2,
+          3,
+          4,
+          9
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 49",
+        "faulty_dealers": {
+          "1": "withhold_F",
+          "8": "digest_mismatch",
+          "11": "bad_F",
+          "16": "no_digest",
+          "17": "no_digest",
+          "19": "bad_F"
+        },
+        "faulty_receivers": {
+          "2": "false_b_complaint",
+          "3": "wrong_V",
+          "8": "false_digest_complaint",
+          "15": "withhold_vec_publish",
+          "17": "withhold_V",
+          "18": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          1
+        ],
+        "disqualified_receivers": [
+          2,
+          3,
+          17
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      },
+      {
+        "n": 20,
+        "t": 7,
+        "gamma": 8,
+        "scenario": "random pattern 50",
+        "faulty_dealers": {
+          "0": "withhold_F",
+          "1": "no_digest",
+          "8": "digest_mismatch",
+          "11": "digest_mismatch",
+          "17": "no_digest",
+          "18": "refuse_open"
+        },
+        "faulty_receivers": {
+          "2": "wrong_V",
+          "4": "false_digest_complaint",
+          "9": "wrong_V",
+          "11": "withhold_V",
+          "14": "withhold_vec_refuse",
+          "16": "false_avail_complaint"
+        },
+        "attempts": 2,
+        "disqualified_dealers": [
+          0,
+          18
+        ],
+        "disqualified_receivers": [
+          2,
+          9,
+          11,
+          14
+        ],
+        "honest_disqualified": [],
+        "secrets_correct": true,
+        "ok": true
+      }
+    ]
+  },
+  "paper_numbers": {
+    "grid_dpdid_pairs_all_lost": "21 of 49",
+    "grid_verihand_pairs_any_lost": 0,
+    "a1_dynamic": {
+      "incoming/I": true,
+      "incoming/II": true,
+      "incoming/III": false,
+      "forwarding/I": true,
+      "forwarding/II": true,
+      "forwarding/III": false,
+      "verihand/II": false,
+      "verihand/III": false
+    },
+    "fault_handling": "26 runs, all ok: True, max attempts 3",
+    "fault_handling_combined": "110 runs, all ok: True, max attempts 6"
+  }
+}

@@ -7,12 +7,13 @@ All experiments of the paper run from one file, `main.py`. Edit only its CONFIG 
 
 | Path | Content |
 |---|---|
-| `main.py` | CONFIG (all parameters, three profiles: `paper`, `table4`, `quick`), runs everything, writes the JSON |
+| `main.py` | CONFIG (all parameters, four profiles: `paper`, `table4`, `python`, `quick`), runs everything, writes the JSON |
 | `verihand/field.py` | BLS12-381 scalar-field arithmetic, Lagrange interpolation, hash |
 | `verihand/attacks.py` | attacks on DP-DID: A1 witness forgery, A2 cross-epoch shares, Q3 refresh, A3 DKG key |
+| `verihand/a1_dynamic.py` | cross-epoch share combination (paper's A1) with a membership change: two handoff completions of DP-DID and VeriHand, five corruption schedules, three accounting rules |
 | `verihand/grid.py` | corruption-pattern grid (Fig. 2) |
 | `verihand/weights.py` | timing of the aggregation weights (Remark 1); share keys of a rejected dealing (Theorem 1) |
-| `verihand/fault_handling.py` | deadlines, complaints, disqualification and restarts of Algorithm 1 |
+| `verihand/fault_handling.py` | deadlines, complaints, disqualification and restarts of Algorithm 1; faulty dealers and receivers alone and together |
 | `verihand/rust_bench.py` | builds the Rust prototype and runs its binaries |
 | `verihand/stats.py` | mean, standard deviation, relative standard deviation |
 | `rust/` | Rust prototype on BLS12-381 (`blstrs`): handoff, per-secret baseline, issuance, revocation |
@@ -41,9 +42,10 @@ All experiments of the paper run from one file, `main.py`. Edit only its CONFIG 
 3. Rust: download and run `rustup-init.exe` from https://rustup.rs and accept the default
    (`1) Proceed with standard installation`), or run `winget install Rustlang.Rustup`.
 4. Close and reopen PowerShell, then check: `python --version`, `cargo --version`.
-5. Download the repository (`git clone https://github.com/Alpha-QQ/verihand-experiments`, or
-   "Code" > "Download ZIP" and unpack it), open PowerShell in the folder that contains `main.py`, and run:
+5. Unpack and run:
 
+       Expand-Archive verihand-experiments.zip -DestinationPath .
+       cd verihand-experiments
        python main.py --profile quick
        cmd /c start /affinity 0xFFF /wait /b python main.py
 
@@ -93,12 +95,27 @@ Timing boundaries (identical for VeriHand and the baseline):
   worst-case handoff in which t-1 dealers of Q are disqualified one per attempt
   (`worst_attempts` = t, summed times `worst_*_ms_total`).
 - `fault_handling` includes the availability rule of Algorithm 1 (a receiver that posts the
-  hash of its share-key vector but withholds the vector).
+  hash of its share-key vector but withholds the vector). `fault_handling_combined` runs
+  faulty dealers and faulty receivers in the same handoff: fixed pairs, one case with t-1 of
+  each, and seeded random patterns with t-1 faulty members in each committee.
+- `a1_dynamic`: for each handoff variant (`incoming`, `forwarding`, `verihand`), accounting
+  rule (`I`, `II`, `III`) and schedule (`A`-`E`), the corruption events, the state each
+  reveals, the budgets charged, whether the schedule is admissible, and how many secrets the
+  adversary recovers; `summary` says whether A1 applies under each rule.
 
 Every Rust run also reports pass/fail flags; `all_checks_pass` must be `true` everywhere.
 Timings depend on the machine; all other values do not.
 
 ## Results reported in the paper
+
+Version 1.2 (2026-11-17) adds `a1_dynamic.py`, the combined-fault runs and the `python`
+profile; the timed code is unchanged. Labels: in `attacks.py`, `A1` is the witness forgery
+and `A2` the cross-epoch combination (the paper calls them A2 and A1), and `Q3` is the
+paper's A6. `results/results-python-laptop-2026-11-18.json` is the `results-python.json`
+written by `python main.py --profile python` on the same laptop (Windows 11, Python 3.12);
+these simulations are untimed and seeded, so every value except the machine block and the
+runtime is the same on any machine.
+
 
 Version 1.1 (2026-11-11) adds the salted digests, the single-threaded blst build, the aligned
 timing boundaries above and the `table4` profile; the fault-handling simulation now keeps a
